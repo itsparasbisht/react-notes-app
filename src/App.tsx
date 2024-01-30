@@ -35,7 +35,7 @@ function App() {
   const [notes, setNotes] = useLocalStorage<RawNote[]>("NOTES", []);
   const [tags, setTags] = useLocalStorage<Tag[]>("TAGS", []);
 
-  const notesWithIds = useMemo(() => {
+  const notesWithTags = useMemo(() => {
     return notes.map((note) => {
       return {
         ...note,
@@ -59,7 +59,10 @@ function App() {
 
   return (
     <Routes>
-      <Route path="/" element={<NoteList availableTags={tags} />} />
+      <Route
+        path="/"
+        element={<NoteList notes={notesWithTags} availableTags={tags} />}
+      />
       <Route
         path="/new"
         element={

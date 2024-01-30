@@ -1,17 +1,37 @@
-import { Button, TextField } from "@radix-ui/themes";
-import { useState } from "react";
+import { Badge, Button, TextField } from "@radix-ui/themes";
+import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import ReactSelect from "react-select";
 import { Tag } from "./App";
 import { PlusIcon, Pencil1Icon } from "@radix-ui/react-icons";
 
-type NoteListProps = {
-  availableTags: Tag[];
+type SimplifiedNote = {
+  tags: Tag[];
+  title: string;
+  id: string;
 };
 
-function NoteList({ availableTags }: NoteListProps) {
+type NoteListProps = {
+  availableTags: Tag[];
+  notes: SimplifiedNote[];
+};
+
+function NoteList({ availableTags, notes }: NoteListProps) {
   const [selectedTags, setSelectedTags] = useState<Tag[]>([]);
   const [title, setTitle] = useState("");
+
+  const filteredNotes = useMemo(() => {
+    return notes.filter((note) => {
+      return (
+        (title === "" ||
+          note.title.toLowerCase().includes(title.toLowerCase())) &&
+        (selectedTags.length === 0 ||
+          selectedTags.every((tag) =>
+            note.tags.some((noteTag) => noteTag.id === tag.id)
+          ))
+      );
+    });
+  }, [title, selectedTags, notes]);
 
   return (
     <>
@@ -66,8 +86,31 @@ function NoteList({ availableTags }: NoteListProps) {
           />
         </div>
       </form>
+      <div className="mt-5 grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
+        {filteredNotes.map((note) => (
+          <div key={note.id}>
+            <NoteCard id={note.id} title={note.title} tags={note.tags} />
+          </div>
+        ))}
+      </div>
     </>
   );
 }
 
 export default NoteList;
+
+function NoteCard({ id, title, tags }: SimplifiedNote) {
+  return (
+    <Link to={`/${id}`}>
+      <div className="border-2 p-4 rounded-lg hover:bg-yellow-100 hover:border-yellow-100 transition-colors overflow-hidden">
+        <h3 className="text-lg mb-1 font-medium truncate">{title}</h3>
+        {tags.length > 0 &&
+          tags.map((tag) => (
+            <Badge id={tag.id} color="tomato" className="mr-2">
+              {tag.label}
+            </Badge>
+          ))}
+      </div>
+    </Link>
+  );
+}
