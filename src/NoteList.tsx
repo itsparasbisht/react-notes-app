@@ -106,8 +106,10 @@ function NoteCard({ id, title, tags }: SimplifiedNote) {
         <h3 className="text-lg mb-1 font-medium truncate">{title}</h3>
         {tags.length > 0 &&
           tags.map((tag) => (
-            <Badge id={tag.id} color="tomato" className="mr-2">
-              {tag.label}
+            <Badge id={tag.id} color="blue" className="mr-2">
+              {tag.label && tag.label.length > 20
+                ? `${tag.label.substring(0, 20)}...`
+                : tag.label}
             </Badge>
           ))}
       </div>
