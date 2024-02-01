@@ -108,6 +108,21 @@ function NoteList({
           />
         </div>
       </form>
+
+      {filteredNotes.length === 0 && (
+        <div className="flex justify-center items-center h-[60vh]">
+          <p className="font-light text-gray-500">
+            No notes added, create a new note &nbsp;
+          </p>
+          <Link to="/new">
+            <Button radius="large" variant="soft">
+              <PlusIcon />
+              Create
+            </Button>
+          </Link>
+        </div>
+      )}
+
       <div className="mt-5 grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
         {filteredNotes.map((note) => (
           <div key={note.id}>
