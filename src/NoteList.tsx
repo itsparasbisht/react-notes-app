@@ -1,9 +1,9 @@
-import { Badge, Button, TextField } from "@radix-ui/themes";
+import { Badge, Button, Dialog, Flex, TextField } from "@radix-ui/themes";
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import ReactSelect from "react-select";
 import { Tag } from "./App";
-import { PlusIcon, Pencil1Icon } from "@radix-ui/react-icons";
+import { PlusIcon, Pencil1Icon, Cross1Icon } from "@radix-ui/react-icons";
 
 type SimplifiedNote = {
   tags: Tag[];
@@ -14,11 +14,27 @@ type SimplifiedNote = {
 type NoteListProps = {
   availableTags: Tag[];
   notes: SimplifiedNote[];
+  onUpdateTag: (id: string, labe: string) => void;
+  onDeleteTag: (id: string) => void;
 };
 
-function NoteList({ availableTags, notes }: NoteListProps) {
+type EditTagsModalProps = {
+  availableTags: Tag[];
+  open: boolean;
+  setOpen: () => void;
+  onUpdateTag: (id: string, labe: string) => void;
+  onDeleteTag: (id: string) => void;
+};
+
+function NoteList({
+  availableTags,
+  notes,
+  onUpdateTag,
+  onDeleteTag,
+}: NoteListProps) {
   const [selectedTags, setSelectedTags] = useState<Tag[]>([]);
   const [title, setTitle] = useState("");
+  const [isEditTagsModalOpen, setIsEditTagsModalOpen] = useState(false);
 
   const filteredNotes = useMemo(() => {
     return notes.filter((note) => {
@@ -44,7 +60,13 @@ function NoteList({ availableTags, notes }: NoteListProps) {
               Create
             </Button>
           </Link>
-          <Button color="yellow" type="button" radius="large" variant="soft">
+          <Button
+            color="yellow"
+            type="button"
+            radius="large"
+            variant="soft"
+            onClick={() => setIsEditTagsModalOpen(true)}
+          >
             <Pencil1Icon />
             Edit Tags
           </Button>
@@ -93,6 +115,13 @@ function NoteList({ availableTags, notes }: NoteListProps) {
           </div>
         ))}
       </div>
+      <EditTagsModal
+        availableTags={availableTags}
+        open={isEditTagsModalOpen}
+        setOpen={() => setIsEditTagsModalOpen(false)}
+        onUpdateTag={onUpdateTag}
+        onDeleteTag={onDeleteTag}
+      />
     </>
   );
 }
@@ -114,5 +143,53 @@ function NoteCard({ id, title, tags }: SimplifiedNote) {
           ))}
       </div>
     </Link>
+  );
+}
+
+function EditTagsModal({
+  availableTags,
+  open,
+  setOpen,
+  onDeleteTag,
+  onUpdateTag,
+}: EditTagsModalProps) {
+  return (
+    <Dialog.Root open={open} onOpenChange={setOpen}>
+      <Dialog.Content style={{ maxWidth: 450 }}>
+        <h3 className="text-xl font-semibold">Edit Tags</h3>
+        <p>Make changes to your tags.</p>
+
+        <form className="flex flex-col gap-2 max-h-[350px] overflow-scroll mt-3 pr-4">
+          {availableTags.map((tag) => (
+            <div key={tag.id} className="flex justify-between items-center">
+              <div className="flex-1 mr-3">
+                <TextField.Input
+                  id="title"
+                  variant="soft"
+                  size="3"
+                  defaultValue={tag.label}
+                  onChange={(e) => onUpdateTag(tag.id, e.target.value)}
+                />
+              </div>
+              <Button
+                variant="soft"
+                color="red"
+                onClick={() => onDeleteTag(tag.id)}
+              >
+                <Cross1Icon />
+              </Button>
+            </div>
+          ))}
+        </form>
+
+        <Flex gap="3" mt="4" justify="end">
+          <Dialog.Close>
+            <Button variant="solid" color="indigo">
+              Cancel
+            </Button>
+          </Dialog.Close>
+        </Flex>
+      </Dialog.Content>
+    </Dialog.Root>
   );
 }
