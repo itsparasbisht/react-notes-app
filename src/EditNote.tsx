@@ -14,6 +14,9 @@ function EditNote({ onSubmit, onAddTag, availableTags }: EditNoteProps) {
     <div>
       <h1 className="text-3xl font-semibold mb-6">Edit Note</h1>
       <NoteForm
+        title={note.title}
+        markdown={note.markdown}
+        tags={note.tags}
         onSubmit={(data) => onSubmit(note.id, data)}
         onAddTag={onAddTag}
         availableTags={availableTags}

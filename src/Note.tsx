@@ -5,11 +5,17 @@ import {
 } from "@radix-ui/react-icons";
 import { Badge, Button } from "@radix-ui/themes";
 import ReactMarkdown from "react-markdown";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useNote } from "./NoteLayout";
 
-export default function Note() {
+type NoteProps = {
+  onDelete: (id: string) => void;
+};
+
+export default function Note({ onDelete }: NoteProps) {
   const note = useNote();
+  const navigate = useNavigate();
+
   return (
     <>
       <div className="flex justify-between items-center gap-1 mb-4">
@@ -29,7 +35,16 @@ export default function Note() {
               Edit
             </Button>
           </Link>
-          <Button color="red" type="button" radius="large" variant="soft">
+          <Button
+            color="red"
+            type="button"
+            radius="large"
+            variant="soft"
+            onClick={() => {
+              onDelete(note.id);
+              navigate("/");
+            }}
+          >
             <ExclamationTriangleIcon />
             Delete
           </Button>
