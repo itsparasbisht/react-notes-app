@@ -109,24 +109,31 @@ function NoteList({
         </div>
       </form>
 
-      {filteredNotes.length === 0 && (
-        <div className="flex justify-center items-center h-[60vh]">
-          <p className="font-light text-gray-500">
-            No notes added, create a new note &nbsp;
-          </p>
-          <Link to="/new">
-            <Button radius="large" variant="soft">
-              <PlusIcon />
-              Create
-            </Button>
-          </Link>
-        </div>
-      )}
+      {filteredNotes.length === 0 &&
+        title === "" &&
+        selectedTags.length === 0 && (
+          <div className="flex justify-center items-center h-[60vh]">
+            <p className="font-light text-gray-500">
+              No notes added, create a new note &nbsp;
+            </p>
+            <Link to="/new">
+              <Button radius="large" variant="soft">
+                <PlusIcon />
+                Create
+              </Button>
+            </Link>
+          </div>
+        )}
 
       <div className="mt-5 grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
         {filteredNotes.map((note) => (
           <div key={note.id}>
-            <NoteCard id={note.id} title={note.title} tags={note.tags} />
+            <NoteCard
+              key={note.id}
+              id={note.id}
+              title={note.title}
+              tags={note.tags}
+            />
           </div>
         ))}
       </div>
@@ -145,8 +152,11 @@ export default NoteList;
 
 function NoteCard({ id, title, tags }: SimplifiedNote) {
   return (
-    <Link to={`/${id}`}>
-      <div className="border-2 p-4 rounded-lg hover:bg-yellow-100 hover:border-yellow-100 transition-colors overflow-hidden">
+    <Link to={`/${id}`} key={id}>
+      <div
+        key={id}
+        className="border-2 p-4 rounded-lg hover:bg-yellow-100 hover:border-yellow-100 transition-colors overflow-hidden"
+      >
         <h3 className="text-lg mb-1 font-medium truncate">{title}</h3>
         {tags.length > 0 &&
           tags.map((tag) => (

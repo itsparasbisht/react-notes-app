@@ -13,7 +13,6 @@ type NoteLayoutProps = {
 export default function NoteLayout({ notes }: NoteLayoutProps) {
   const { id } = useParams();
   const note = notes.find((note) => note.id === id);
-  console.log(">>", note);
 
   if (note === undefined) return <Navigate to="/" replace />;
 

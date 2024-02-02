@@ -6,6 +6,7 @@ import {
 import { Badge, Button } from "@radix-ui/themes";
 import ReactMarkdown from "react-markdown";
 import { Link, useNavigate } from "react-router-dom";
+import remarkGfm from "remark-gfm";
 import { useNote } from "./NoteLayout";
 
 type NoteProps = {
@@ -56,7 +57,7 @@ export default function Note({ onDelete }: NoteProps) {
           </Link>
         </div>
       </div>
-      <ReactMarkdown>{note.markdown}</ReactMarkdown>
+      <ReactMarkdown remarkPlugins={[remarkGfm]}>{note.markdown}</ReactMarkdown>
     </>
   );
 }
