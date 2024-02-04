@@ -113,7 +113,7 @@ function NoteForm({
           <ReactMarkdown
             remarkPlugins={[remarkGfm]}
             rehypePlugins={[rehypeRaw, rehypeSanitize]}
-            className="h-[93%] border-2 rounded-lg p-2"
+            className="h-[93%] border-2 rounded-lg p-5 pt-0 overflow-scroll markdown-container"
           >
             {markdownInput}
           </ReactMarkdown>
