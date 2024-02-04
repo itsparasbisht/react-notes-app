@@ -1,9 +1,13 @@
 import { Flex, TextField, TextArea, Button } from "@radix-ui/themes";
 import { Link, useNavigate } from "react-router-dom";
 import CreatableSelect from "react-select/creatable";
-import { useRef, useState, FormEvent } from "react";
+import { useRef, useState, FormEvent, ChangeEvent } from "react";
 import { NoteData, Tag } from "./App";
 import { v4 as uuidV4 } from "uuid";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import rehypeRaw from "rehype-raw";
+import rehypeSanitize from "rehype-sanitize";
 
 type NoteFormProps = {
   onSubmit: (data: NoteData) => void;
@@ -20,7 +24,7 @@ function NoteForm({
   tags = [],
 }: NoteFormProps) {
   const titleRef = useRef<HTMLInputElement>(null);
-  const markdownRef = useRef<HTMLTextAreaElement>(null);
+  const [markdownInput, setMarkdownInput] = useState(markdown);
   const [selectedTags, setSelectedTags] = useState<Tag[]>(tags);
   const navigate = useNavigate();
 
@@ -28,11 +32,15 @@ function NoteForm({
     e.preventDefault();
     onSubmit({
       title: titleRef.current!.value,
-      markdown: markdownRef.current!.value,
+      markdown: markdownInput,
       tags: selectedTags,
     });
     navigate("..");
   }
+
+  const handleMarkdownChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    setMarkdownInput(e.target.value);
+  };
 
   return (
     <form onSubmit={handleSubmit}>
@@ -81,20 +89,35 @@ function NoteForm({
         </div>
       </Flex>
 
-      <div className="mt-4">
-        <label htmlFor="markdown" className="block mb-1 font-medium">
-          Body
-        </label>
-        <TextArea
-          id="markdown"
-          variant="soft"
-          size="3"
-          rows={10}
-          placeholder="start typing..."
-          ref={markdownRef}
-          required
-          defaultValue={markdown}
-        />
+      <div className="mt-4 flex gap-3">
+        <div className="flex-1">
+          <label htmlFor="markdown" className="block mb-1 font-medium">
+            Body
+          </label>
+          <TextArea
+            className="border-2"
+            id="markdown"
+            variant="soft"
+            size="3"
+            rows={14}
+            placeholder="start typing..."
+            value={markdownInput}
+            required
+            onChange={handleMarkdownChange}
+          />
+        </div>
+        <div className="flex-1">
+          <label htmlFor="markdown" className="block mb-1 font-medium">
+            Markdown Preview
+          </label>
+          <ReactMarkdown
+            remarkPlugins={[remarkGfm]}
+            rehypePlugins={[rehypeRaw, rehypeSanitize]}
+            className="h-[93%] border-2 rounded-lg p-2"
+          >
+            {markdownInput}
+          </ReactMarkdown>
+        </div>
       </div>
 
       <div className="flex justify-end gap-3 mt-4">
