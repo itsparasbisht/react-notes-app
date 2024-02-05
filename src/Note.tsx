@@ -21,7 +21,7 @@ export default function Note({ onDelete }: NoteProps) {
 
   return (
     <>
-      <div className="flex justify-between items-center gap-1 mb-4">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center sticky top-0 bg-white pt-3 pb-3 border-b-2">
         <div>
           <h1 className="text-3xl font-medium">{note.title}</h1>
           {note.tags.length > 0 &&
@@ -31,7 +31,7 @@ export default function Note({ onDelete }: NoteProps) {
               </Badge>
             ))}
         </div>
-        <div className="flex gap-3">
+        <div className="flex gap-3 mt-3 md:mt-0">
           <Link to={`/${note.id}/edit`}>
             <Button color="green" type="button" radius="large" variant="soft">
               <Pencil1Icon />
@@ -60,6 +60,7 @@ export default function Note({ onDelete }: NoteProps) {
         </div>
       </div>
       <ReactMarkdown
+        className="markdown-container w-full overflow-scroll"
         remarkPlugins={[remarkGfm]}
         rehypePlugins={[rehypeRaw, rehypeSanitize]}
       >

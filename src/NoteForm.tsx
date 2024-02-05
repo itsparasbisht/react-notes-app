@@ -95,7 +95,7 @@ function NoteForm({
             Body
           </label>
           <TextArea
-            className="border-2"
+            className="border-2 h-[60vh]"
             id="markdown"
             variant="soft"
             size="3"
@@ -113,7 +113,7 @@ function NoteForm({
           <ReactMarkdown
             remarkPlugins={[remarkGfm]}
             rehypePlugins={[rehypeRaw, rehypeSanitize]}
-            className="h-[93%] border-2 rounded-lg p-5 pt-0 overflow-scroll markdown-container"
+            className="markdown-container h-[60vh] border-2 rounded-lg p-4 pt-0 overflow-x-scroll overflow-scroll"
           >
             {markdownInput}
           </ReactMarkdown>
