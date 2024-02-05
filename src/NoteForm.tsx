@@ -1,4 +1,4 @@
-import { Flex, TextField, TextArea, Button } from "@radix-ui/themes";
+import { TextField, TextArea, Button } from "@radix-ui/themes";
 import { Link, useNavigate } from "react-router-dom";
 import CreatableSelect from "react-select/creatable";
 import { useRef, useState, FormEvent, ChangeEvent } from "react";
@@ -44,7 +44,7 @@ function NoteForm({
 
   return (
     <form onSubmit={handleSubmit}>
-      <Flex direction="row" gap="3">
+      <div className="flex gap-3 flex-col md:flex-row">
         <div className="flex-1">
           <label htmlFor="title" className="block mb-1 font-medium">
             Title
@@ -87,9 +87,9 @@ function NoteForm({
             }}
           />
         </div>
-      </Flex>
+      </div>
 
-      <div className="mt-4 flex gap-3">
+      <div className="mt-4 flex gap-3 flex-col md:flex-row">
         <div className="flex-1">
           <label htmlFor="markdown" className="block mb-1 font-medium">
             Body
@@ -120,7 +120,7 @@ function NoteForm({
         </div>
       </div>
 
-      <div className="flex justify-end gap-3 mt-4">
+      <div className="flex justify-end gap-3 mt-4 mb-4 md:mb-0">
         <Button type="submit" radius="large" variant="solid">
           Save
         </Button>
