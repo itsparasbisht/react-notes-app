@@ -90,12 +90,12 @@ function NoteForm({
       </div>
 
       <div className="mt-4 flex gap-3 flex-col md:flex-row">
-        <div className="flex-1">
+        <div className="w-full md:w-1/2">
           <label htmlFor="markdown" className="block mb-1 font-medium">
             Body
           </label>
           <TextArea
-            className="border-2 h-[60vh]"
+            className="h-[60vh]"
             id="markdown"
             variant="soft"
             size="3"
@@ -106,7 +106,7 @@ function NoteForm({
             onChange={handleMarkdownChange}
           />
         </div>
-        <div className="flex-1">
+        <div className="w-full md:w-1/2">
           <label htmlFor="markdown" className="block mb-1 font-medium">
             Markdown Preview
           </label>
