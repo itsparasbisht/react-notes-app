@@ -25,3 +25,9 @@ body {
         padding-top: 10px;
     }
 }
+
+@media (prefers-color-scheme: dark) {
+    body {
+        background: #020617 !important;
+    }
+}

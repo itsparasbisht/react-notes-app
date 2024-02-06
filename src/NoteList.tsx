@@ -36,6 +36,10 @@ function NoteList({
   const [title, setTitle] = useState("");
   const [isEditTagsModalOpen, setIsEditTagsModalOpen] = useState(false);
 
+  const hasDarkTheme = window.matchMedia(
+    "(prefers-color-scheme: dark)"
+  ).matches;
+
   const filteredNotes = useMemo(() => {
     return notes.filter((note) => {
       return (
@@ -51,8 +55,8 @@ function NoteList({
 
   return (
     <>
-      <div className="flex justify-between">
-        <h1 className="text-3xl font-semibold">Notes</h1>
+      <div className="flex justify-between dark:bg-slate-950">
+        <h1 className="text-3xl font-semibold dark:text-white">Notes</h1>
         <div className="flex gap-3">
           <Link to="/new">
             <Button radius="large" variant="solid">
@@ -66,13 +70,14 @@ function NoteList({
             radius="large"
             variant="soft"
             onClick={() => setIsEditTagsModalOpen(true)}
+            className="dark"
           >
             <Pencil1Icon />
             Edit Tags
           </Button>
         </div>
       </div>
-      <form className="flex gap-6 mt-4">
+      <form className="flex gap-6 mt-4 dark:text-white">
         <div className="flex-1">
           <label htmlFor="title" className="block mb-1 font-medium">
             Title
@@ -83,6 +88,7 @@ function NoteList({
             size="3"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
+            className="dark:!text-gray-300"
           />
         </div>
         <div className="flex-1">
@@ -104,6 +110,25 @@ function NoteList({
                   return { label: tag.label, id: tag.value };
                 })
               );
+            }}
+            className="text-black"
+            styles={{
+              control: (baseStyles, state) => ({
+                ...baseStyles,
+                backgroundColor: hasDarkTheme ? "#020B26" : "#FFFFFF",
+                borderColor: hasDarkTheme ? "#020B26" : "#FFFFFF",
+              }),
+              menu: (baseStyles) => ({
+                ...baseStyles,
+                backgroundColor: hasDarkTheme ? "#020B26" : "#FFFFFF",
+                color: hasDarkTheme ? "#FFFFFF" : "#FFFFFF",
+              }),
+              option: (baseStyles) => ({
+                ...baseStyles,
+                ":hover": {
+                  backgroundColor: hasDarkTheme ? "red" : "#FFFFFF",
+                },
+              }),
             }}
           />
         </div>
@@ -155,7 +180,7 @@ function NoteCard({ id, title, tags }: SimplifiedNote) {
     <Link to={`/${id}`} key={id}>
       <div
         key={id}
-        className="border-2 p-4 rounded-lg hover:bg-yellow-100 hover:border-yellow-100 transition-colors overflow-hidden"
+        className="border-2 p-4 rounded-lg hover:bg-yellow-100 hover:border-yellow-100 transition-colors overflow-hidden dark:text-white dark:border-indigo-950 dark:hover:bg-indigo-950 dark:hover:border-indigo-950"
       >
         <h3 className="text-lg mb-1 font-medium truncate">{title}</h3>
         {tags.length > 0 &&
@@ -180,7 +205,10 @@ function EditTagsModal({
 }: EditTagsModalProps) {
   return (
     <Dialog.Root open={open} onOpenChange={setOpen}>
-      <Dialog.Content style={{ maxWidth: 450 }}>
+      <Dialog.Content
+        style={{ maxWidth: 450 }}
+        className="dark dark:text-white dark:!bg-slate-950"
+      >
         <h3 className="text-xl font-semibold">Edit Tags</h3>
         <p>Make changes to your tags.</p>
 
@@ -194,6 +222,7 @@ function EditTagsModal({
                   size="3"
                   defaultValue={tag.label}
                   onChange={(e) => onUpdateTag(tag.id, e.target.value)}
+                  className="dark:!text-indigo-500"
                 />
               </div>
               <Button
