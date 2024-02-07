@@ -2,7 +2,7 @@ import { TextField, TextArea, Button } from "@radix-ui/themes";
 import { Link, useNavigate } from "react-router-dom";
 import CreatableSelect from "react-select/creatable";
 import { useRef, useState, FormEvent, ChangeEvent } from "react";
-import { NoteData, Tag } from "./App";
+import { hasDarkTheme, NoteData, Tag } from "./App";
 import { v4 as uuidV4 } from "uuid";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -43,7 +43,7 @@ function NoteForm({
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="dark:text-gray-200">
       <div className="flex gap-3 flex-col md:flex-row">
         <div className="flex-1">
           <label htmlFor="title" className="block mb-1 font-medium">
@@ -57,6 +57,7 @@ function NoteForm({
             ref={titleRef}
             required
             defaultValue={title}
+            className="dark:!text-gray-300"
           />
         </div>
 
@@ -66,6 +67,7 @@ function NoteForm({
           </label>
           <CreatableSelect
             id="tags"
+            className="text-black"
             isMulti
             value={selectedTags.map((tag) => {
               return { label: tag.label, value: tag.id };
@@ -84,6 +86,13 @@ function NoteForm({
                   return { label: tag.label, id: tag.value };
                 })
               );
+            }}
+            styles={{
+              control: (baseStyles) => ({
+                ...baseStyles,
+                backgroundColor: hasDarkTheme ? "#020B26" : "#EDF2FE",
+                borderColor: hasDarkTheme ? "#020B26" : "#FFFFFF",
+              }),
             }}
           />
         </div>
@@ -113,14 +122,16 @@ function NoteForm({
           <ReactMarkdown
             remarkPlugins={[remarkGfm]}
             rehypePlugins={[rehypeRaw, rehypeSanitize]}
-            className="markdown-container h-[60vh] border-2 rounded-lg p-4 pt-0 overflow-x-scroll overflow-scroll"
+            className="markdown-container h-[60vh] border-2 rounded-lg p-4 pt-0  overflow-auto"
           >
             {markdownInput}
           </ReactMarkdown>
         </div>
       </div>
 
-      <div className="flex justify-end gap-3 mt-4 mb-4 md:mb-0">
+      <div
+        className={`flex justify-end gap-3 mt-4 mb-4 ${hasDarkTheme && "dark"}`}
+      >
         <Button type="submit" radius="large" variant="solid">
           Save
         </Button>

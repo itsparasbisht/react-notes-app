@@ -2,7 +2,7 @@ import { Badge, Button, Dialog, Flex, TextField } from "@radix-ui/themes";
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import ReactSelect from "react-select";
-import { Tag } from "./App";
+import { hasDarkTheme, Tag } from "./App";
 import { PlusIcon, Pencil1Icon, Cross1Icon } from "@radix-ui/react-icons";
 
 type SimplifiedNote = {
@@ -36,10 +36,6 @@ function NoteList({
   const [title, setTitle] = useState("");
   const [isEditTagsModalOpen, setIsEditTagsModalOpen] = useState(false);
 
-  const hasDarkTheme = window.matchMedia(
-    "(prefers-color-scheme: dark)"
-  ).matches;
-
   const filteredNotes = useMemo(() => {
     return notes.filter((note) => {
       return (
@@ -56,8 +52,8 @@ function NoteList({
   return (
     <>
       <div className="flex justify-between dark:bg-slate-950">
-        <h1 className="text-3xl font-semibold dark:text-white">Notes</h1>
-        <div className="flex gap-3">
+        <h1 className="text-3xl font-semibold dark:text-gray-200">Notes</h1>
+        <div className={`flex gap-3 ${hasDarkTheme && "dark"}`}>
           <Link to="/new">
             <Button radius="large" variant="solid">
               <PlusIcon />
@@ -70,14 +66,13 @@ function NoteList({
             radius="large"
             variant="soft"
             onClick={() => setIsEditTagsModalOpen(true)}
-            className="dark"
           >
             <Pencil1Icon />
             Edit Tags
           </Button>
         </div>
       </div>
-      <form className="flex gap-6 mt-4 dark:text-white">
+      <form className="flex gap-6 mt-4 dark:text-gray-300">
         <div className="flex-1">
           <label htmlFor="title" className="block mb-1 font-medium">
             Title
@@ -113,21 +108,10 @@ function NoteList({
             }}
             className="text-black"
             styles={{
-              control: (baseStyles, state) => ({
+              control: (baseStyles) => ({
                 ...baseStyles,
-                backgroundColor: hasDarkTheme ? "#020B26" : "#FFFFFF",
+                backgroundColor: hasDarkTheme ? "#020B26" : "#EDF2FE",
                 borderColor: hasDarkTheme ? "#020B26" : "#FFFFFF",
-              }),
-              menu: (baseStyles) => ({
-                ...baseStyles,
-                backgroundColor: hasDarkTheme ? "#020B26" : "#FFFFFF",
-                color: hasDarkTheme ? "#FFFFFF" : "#FFFFFF",
-              }),
-              option: (baseStyles) => ({
-                ...baseStyles,
-                ":hover": {
-                  backgroundColor: hasDarkTheme ? "red" : "#FFFFFF",
-                },
               }),
             }}
           />
@@ -180,12 +164,16 @@ function NoteCard({ id, title, tags }: SimplifiedNote) {
     <Link to={`/${id}`} key={id}>
       <div
         key={id}
-        className="border-2 p-4 rounded-lg hover:bg-yellow-100 hover:border-yellow-100 transition-colors overflow-hidden dark:text-white dark:border-indigo-950 dark:hover:bg-indigo-950 dark:hover:border-indigo-950"
+        className="border-2 p-4 rounded-lg hover:bg-yellow-100 hover:border-yellow-100 transition-colors overflow-hidden dark:text-gray-300 dark:border-indigo-950 dark:hover:bg-indigo-950 dark:hover:border-indigo-950"
       >
         <h3 className="text-lg mb-1 font-medium truncate">{title}</h3>
         {tags.length > 0 &&
           tags.map((tag) => (
-            <Badge id={tag.id} color="blue" className="mr-2">
+            <Badge
+              id={tag.id}
+              color="blue"
+              className={`mr-2 ${hasDarkTheme && "dark"}`}
+            >
               {tag.label && tag.label.length > 20
                 ? `${tag.label.substring(0, 20)}...`
                 : tag.label}
@@ -207,12 +195,14 @@ function EditTagsModal({
     <Dialog.Root open={open} onOpenChange={setOpen}>
       <Dialog.Content
         style={{ maxWidth: 450 }}
-        className="dark dark:text-white dark:!bg-slate-950"
+        className={`${
+          hasDarkTheme && "dark"
+        } dark:text-white dark:!bg-slate-950"`}
       >
         <h3 className="text-xl font-semibold">Edit Tags</h3>
         <p>Make changes to your tags.</p>
 
-        <form className="flex flex-col gap-2 max-h-[350px] overflow-scroll mt-3 pr-4">
+        <form className="flex flex-col gap-2 max-h-[350px] overflow-y-scroll mt-3 pr-4">
           {availableTags.map((tag) => (
             <div key={tag.id} className="flex justify-between items-center">
               <div className="flex-1 mr-3">

@@ -30,4 +30,8 @@ body {
     body {
         background: #020617 !important;
     }
+
+    .rt-TextAreaInput {
+        color: rgb(233, 233, 233) !important;
+    }
 }

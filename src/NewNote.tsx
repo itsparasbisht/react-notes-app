@@ -10,7 +10,9 @@ type NewNoteProps = {
 function NewNote({ onSubmit, onAddTag, availableTags }: NewNoteProps) {
   return (
     <div>
-      <h1 className="text-3xl font-semibold mb-6">New Note</h1>
+      <h1 className="text-3xl font-semibold mb-6 dark:text-gray-200">
+        New Note
+      </h1>
       <NoteForm
         onSubmit={onSubmit}
         onAddTag={onAddTag}

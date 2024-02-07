@@ -34,6 +34,10 @@ export type RawNoteData = {
   tagIds: string[];
 };
 
+export const hasDarkTheme = window.matchMedia(
+  "(prefers-color-scheme: dark)"
+).matches;
+
 function App() {
   const [notes, setNotes] = useLocalStorage<RawNote[]>("NOTES", []);
   const [tags, setTags] = useLocalStorage<Tag[]>("TAGS", []);
