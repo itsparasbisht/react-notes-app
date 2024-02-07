@@ -10,19 +10,22 @@ import remarkGfm from "remark-gfm";
 import rehypeRaw from "rehype-raw";
 import rehypeSanitize from "rehype-sanitize";
 import { useNote } from "./NoteLayout";
-import { hasDarkTheme } from "./App";
 
 type NoteProps = {
   onDelete: (id: string) => void;
+  hasDarkTheme: boolean;
 };
 
-export default function Note({ onDelete }: NoteProps) {
+export default function Note({ onDelete, hasDarkTheme }: NoteProps) {
   const note = useNote();
   const navigate = useNavigate();
 
   return (
     <>
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center sticky top-0 bg-white pt-3 pb-3 border-b-2 dark:bg-slate-950 dark:text-gray-200">
+      <div
+        key={note.id}
+        className="flex flex-col md:flex-row justify-between items-start md:items-center sticky top-0 bg-white pt-3 pb-3 border-b-2 dark:bg-slate-950 dark:text-gray-200"
+      >
         <div className={`${hasDarkTheme && "dark"}`}>
           <h1 className="text-3xl font-medium">{note.title}</h1>
           {note.tags.length > 0 &&

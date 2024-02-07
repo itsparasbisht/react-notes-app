@@ -2,7 +2,7 @@ import "./App.css";
 import { Routes, Route, Navigate } from "react-router-dom";
 import NewNote from "./NewNote";
 import { useLocalStorage } from "./useLocalStorage";
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { v4 as uuidV4 } from "uuid";
 import NoteList from "./NoteList";
 import NoteLayout from "./NoteLayout";
@@ -34,13 +34,17 @@ export type RawNoteData = {
   tagIds: string[];
 };
 
-export const hasDarkTheme = window.matchMedia(
-  "(prefers-color-scheme: dark)"
-).matches;
-
 function App() {
   const [notes, setNotes] = useLocalStorage<RawNote[]>("NOTES", []);
   const [tags, setTags] = useLocalStorage<Tag[]>("TAGS", []);
+  const [hasDarkTheme, setHasDarkTheme] = useState(false);
+
+  useEffect(() => {
+    const systemDarkThemeEnabled = window.matchMedia(
+      "(prefers-color-scheme: dark)"
+    ).matches;
+    if (systemDarkThemeEnabled) setHasDarkTheme(true);
+  }, []);
 
   const notesWithTags = useMemo(() => {
     return notes.map((note) => {
@@ -110,6 +114,8 @@ function App() {
             availableTags={tags}
             onUpdateTag={updateTag}
             onDeleteTag={deleteTag}
+            hasDarkTheme={hasDarkTheme}
+            toggleTheme={setHasDarkTheme}
           />
         }
       />
@@ -120,11 +126,15 @@ function App() {
             onSubmit={onCreateNote}
             onAddTag={addTag}
             availableTags={tags}
+            hasDarkTheme={hasDarkTheme}
           />
         }
       />
       <Route path="/:id" element={<NoteLayout notes={notesWithTags} />}>
-        <Route index element={<Note onDelete={onDeleteNote} />} />
+        <Route
+          index
+          element={<Note onDelete={onDeleteNote} hasDarkTheme={hasDarkTheme} />}
+        />
         <Route
           path="edit"
           element={
@@ -132,6 +142,7 @@ function App() {
               onSubmit={onUpdateNote}
               onAddTag={addTag}
               availableTags={tags}
+              hasDarkTheme={hasDarkTheme}
             />
           }
         />

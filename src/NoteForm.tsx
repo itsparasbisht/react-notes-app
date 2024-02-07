@@ -2,7 +2,7 @@ import { TextField, TextArea, Button } from "@radix-ui/themes";
 import { Link, useNavigate } from "react-router-dom";
 import CreatableSelect from "react-select/creatable";
 import { useRef, useState, FormEvent, ChangeEvent } from "react";
-import { hasDarkTheme, NoteData, Tag } from "./App";
+import { NoteData, Tag } from "./App";
 import { v4 as uuidV4 } from "uuid";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -13,6 +13,7 @@ type NoteFormProps = {
   onSubmit: (data: NoteData) => void;
   onAddTag: (tag: Tag) => void;
   availableTags: Tag[];
+  hasDarkTheme: boolean;
 } & Partial<NoteData>;
 
 function NoteForm({
@@ -22,6 +23,7 @@ function NoteForm({
   title = "",
   markdown = "",
   tags = [],
+  hasDarkTheme,
 }: NoteFormProps) {
   const titleRef = useRef<HTMLInputElement>(null);
   const [markdownInput, setMarkdownInput] = useState(markdown);

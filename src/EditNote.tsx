@@ -6,9 +6,15 @@ type EditNoteProps = {
   onSubmit: (id: string, data: NoteData) => void;
   onAddTag: (tag: Tag) => void;
   availableTags: Tag[];
+  hasDarkTheme: boolean;
 };
 
-function EditNote({ onSubmit, onAddTag, availableTags }: EditNoteProps) {
+function EditNote({
+  onSubmit,
+  onAddTag,
+  availableTags,
+  hasDarkTheme,
+}: EditNoteProps) {
   const note = useNote();
   return (
     <div>
@@ -22,6 +28,7 @@ function EditNote({ onSubmit, onAddTag, availableTags }: EditNoteProps) {
         onSubmit={(data) => onSubmit(note.id, data)}
         onAddTag={onAddTag}
         availableTags={availableTags}
+        hasDarkTheme={hasDarkTheme}
       />
     </div>
   );

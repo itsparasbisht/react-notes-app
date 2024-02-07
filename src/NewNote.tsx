@@ -5,9 +5,15 @@ type NewNoteProps = {
   onSubmit: (data: NoteData) => void;
   onAddTag: (tag: Tag) => void;
   availableTags: Tag[];
+  hasDarkTheme: boolean;
 };
 
-function NewNote({ onSubmit, onAddTag, availableTags }: NewNoteProps) {
+function NewNote({
+  onSubmit,
+  onAddTag,
+  availableTags,
+  hasDarkTheme,
+}: NewNoteProps) {
   return (
     <div>
       <h1 className="text-3xl font-semibold mb-6 dark:text-gray-200">
@@ -17,6 +23,7 @@ function NewNote({ onSubmit, onAddTag, availableTags }: NewNoteProps) {
         onSubmit={onSubmit}
         onAddTag={onAddTag}
         availableTags={availableTags}
+        hasDarkTheme={hasDarkTheme}
       />
     </div>
   );
