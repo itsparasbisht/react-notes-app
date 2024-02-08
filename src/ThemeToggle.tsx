@@ -26,19 +26,19 @@ export default function ThemeToggle({
       tabIndex={0}
       onKeyDown={handleKeyDown}
       onClick={handleClick}
-      className={`cursor-pointer w-11 h-5 bg-slate-900 dark:bg-indigo-600 rounded-full relative px-1.5 flex items-center${
+      className={`cursor-pointer w-14 h-7 bg-slate-900 dark:bg-indigo-600 rounded-full relative px-1.5 flex items-center${
         hasDarkTheme ? "" : " justify-end"
       }`}
     >
       <div
-        className={`w-4 h-4 rounded-full absolute transform duration-200 ease-out bg-white left-0.5 ${
-          hasDarkTheme ? "translate-x-6" : "translate-x-0"
+        className={`w-5 h-5 rounded-full absolute transform duration-200 ease-out bg-white left-0.5 ${
+          hasDarkTheme ? "translate-x-8" : "translate-x-0"
         }`}
       />
       {hasDarkTheme ? (
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          className="h-3 w-3 text-white"
+          className="h-4 w-4 text-white"
           viewBox="0 0 20 20"
           fill="currentColor"
         >
@@ -47,7 +47,7 @@ export default function ThemeToggle({
       ) : (
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          className="h-3 w-3 text-white"
+          className="h-4 w-4 text-white"
           viewBox="0 0 20 20"
           fill="currentColor"
         >
