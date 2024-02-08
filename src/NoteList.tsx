@@ -57,7 +57,7 @@ function NoteList({
   }, [title, selectedTags, notes]);
 
   return (
-    <div className={`${hasDarkTheme && "dark"}`}>
+    <div className={`${hasDarkTheme && "dark"} pt-2 md:pt-4`}>
       <div
         className={`${
           hasDarkTheme && "dark"
@@ -140,7 +140,7 @@ function NoteList({
         selectedTags.length === 0 && (
           <div className="flex flex-col gap-1 justify-center items-center h-[60vh] md:flex-row">
             <p className="font-light text-gray-500">
-              No notes added, create a new note &nbsp;
+              No note added, create a new note &nbsp;
             </p>
             <Link to="/new">
               <Button radius="large" variant="soft">
@@ -221,7 +221,7 @@ function EditTagsModal({
         <h3 className="text-xl font-semibold dark:text-gray-200">Edit Tags</h3>
         <p className="dark:text-gray-300">Make changes to your tags.</p>
 
-        <form className="flex flex-col gap-2 max-h-[350px] overflow-y-scroll mt-3 pr-4">
+        <form className="flex flex-col gap-2 max-h-[350px] overflow-auto mt-3 pr-4">
           {availableTags.map((tag) => (
             <div key={tag.id} className="flex justify-between items-center">
               <div className="flex-1 mr-3">

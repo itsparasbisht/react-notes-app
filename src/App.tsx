@@ -46,6 +46,15 @@ function App() {
     if (systemDarkThemeEnabled) setHasDarkTheme(true);
   }, []);
 
+  useEffect(() => {
+    const body = document.querySelector("body");
+    if (hasDarkTheme) {
+      body!.style.backgroundColor = "#020617";
+    } else {
+      body!.style.backgroundColor = "#ffffff";
+    }
+  }, [hasDarkTheme]);
+
   const notesWithTags = useMemo(() => {
     return notes.map((note) => {
       return {

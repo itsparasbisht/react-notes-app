@@ -15,7 +15,7 @@ function NewNote({
   hasDarkTheme,
 }: NewNoteProps) {
   return (
-    <div>
+    <div className={`${hasDarkTheme && "dark"} pt-2 md:pt-3`}>
       <h1 className="text-3xl font-semibold mb-6 dark:text-gray-200">
         New Note
       </h1>

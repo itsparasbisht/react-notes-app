@@ -14,24 +14,22 @@
     }
 }
 
+@layer components {
+    .radix-textarea-dark>* {
+        color: #d9d9d9 !important;
+    }
+
+    .radix-textarea-light>* {
+        color: #000000 !important;
+    }
+}
+
 body {
     margin: 0px 30px;
-    padding-top: 20px;
 }
 
 @media all and (max-width:600px) {
     body {
         margin: 0px 15px;
-        padding-top: 10px;
-    }
-}
-
-@media (prefers-color-scheme: dark) {
-    body {
-        background: #020617 !important;
-    }
-
-    .rt-TextAreaInput {
-        color: rgb(233, 233, 233) !important;
     }
 }

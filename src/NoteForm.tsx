@@ -45,7 +45,7 @@ function NoteForm({
   };
 
   return (
-    <form onSubmit={handleSubmit} className="dark:text-gray-200">
+    <form onSubmit={handleSubmit} className="dark:text-gray-300">
       <div className="flex gap-3 flex-col md:flex-row">
         <div className="flex-1">
           <label htmlFor="title" className="block mb-1 font-medium">
@@ -106,7 +106,9 @@ function NoteForm({
             Body
           </label>
           <TextArea
-            className="h-[60vh]"
+            className={`h-[60vh] ${
+              hasDarkTheme ? "radix-textarea-dark" : "radix-textarea-light"
+            }`}
             id="markdown"
             variant="soft"
             size="3"
