@@ -61,7 +61,7 @@ function NoteList({
       <div
         className={`${
           hasDarkTheme && "dark"
-        } flex justify-between dark:bg-slate-950"`}
+        } flex justify-between items-center dark:bg-slate-950"`}
       >
         <h1 className="text-3xl font-semibold dark:text-gray-200">Notes</h1>
         <div className={`flex items-center gap-3 ${hasDarkTheme && "dark"}`}>
@@ -139,7 +139,7 @@ function NoteList({
         title === "" &&
         selectedTags.length === 0 && (
           <div className="flex flex-col gap-1 justify-center items-center h-[60vh] md:flex-row">
-            <p className="font-light text-gray-500">
+            <p className="font-light text-gray-400">
               No note added, create a new note &nbsp;
             </p>
             <Link to="/new">
