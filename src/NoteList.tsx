@@ -89,7 +89,7 @@ function NoteList({
           </Button>
         </div>
       </div>
-      <form className="flex gap-6 mt-4 dark:text-gray-300">
+      <form className="flex gap-3 mt-4 flex-col md:flex-row dark:text-gray-300">
         <div className={`${hasDarkTheme && "dark"} flex-1`}>
           <label htmlFor="title" className="block mb-1 font-medium">
             Title
