@@ -51,7 +51,14 @@ function NoteForm({
   async function handleSaveInDB() {
     const { data, error } = await supabase
       .from("blogs")
-      .insert([{ title, teaser, body: markdownInput, tags: selectedTags }])
+      .insert([
+        {
+          title: titleRef.current!.value,
+          teaser: teaserRef.current!.value,
+          body: markdownInput,
+          tags: selectedTags,
+        },
+      ])
       .select();
     if (data) {
       console.log(data);
