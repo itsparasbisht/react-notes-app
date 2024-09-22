@@ -8,6 +8,7 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeRaw from "rehype-raw";
 import rehypeSanitize from "rehype-sanitize";
+import { supabase } from "./utils/supabase";
 
 type NoteFormProps = {
   onSubmit: (data: NoteData) => void;
@@ -43,6 +44,20 @@ function NoteForm({
   const handleMarkdownChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setMarkdownInput(e.target.value);
   };
+
+  async function handleSaveInDB() {
+    const { data, error } = await supabase
+      .from("blogs")
+      .insert([{ title, body: markdownInput, tags: selectedTags }])
+      .select();
+    if (data) {
+      console.log(data);
+      alert("Saved in DB");
+    } else if (error) {
+      console.log(error);
+      alert("Error");
+    }
+  }
 
   return (
     <form onSubmit={handleSubmit} className="dark:text-gray-300">
@@ -136,6 +151,15 @@ function NoteForm({
       <div
         className={`flex justify-end gap-3 mt-4 mb-4 ${hasDarkTheme && "dark"}`}
       >
+        <Button
+          type="button"
+          radius="large"
+          variant="solid"
+          color="yellow"
+          onClick={handleSaveInDB}
+        >
+          Save in DB
+        </Button>
         <Button type="submit" radius="large" variant="solid">
           Save
         </Button>
