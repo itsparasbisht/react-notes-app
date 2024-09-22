@@ -11,6 +11,7 @@ import EditNote from "./EditNote";
 
 export type NoteData = {
   title: string;
+  teaser: string;
   markdown: string;
   tags: Tag[];
 };
@@ -30,6 +31,7 @@ export type RawNote = {
 
 export type RawNoteData = {
   title: string;
+  teaser: string;
   markdown: string;
   tagIds: string[];
 };

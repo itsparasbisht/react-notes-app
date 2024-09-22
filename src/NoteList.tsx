@@ -9,6 +9,7 @@ import ThemeToggle from "./ThemeToggle";
 type SimplifiedNote = {
   tags: Tag[];
   title: string;
+  teaser: string;
   id: string;
   hasDarkTheme?: boolean;
 };
@@ -158,6 +159,7 @@ function NoteList({
               key={note.id}
               id={note.id}
               title={note.title}
+              teaser={note.teaser}
               tags={note.tags}
               hasDarkTheme={hasDarkTheme}
             />
@@ -178,7 +180,7 @@ function NoteList({
 
 export default NoteList;
 
-function NoteCard({ id, title, tags, hasDarkTheme }: SimplifiedNote) {
+function NoteCard({ id, title, teaser, tags, hasDarkTheme }: SimplifiedNote) {
   return (
     <Link to={`/${id}`} key={id}>
       <div
@@ -190,6 +192,7 @@ function NoteCard({ id, title, tags, hasDarkTheme }: SimplifiedNote) {
         {tags.length > 0 &&
           tags.map((tag) => (
             <Badge
+              key={tag.id}
               id={tag.id}
               color="blue"
               className={`mr-2 ${hasDarkTheme && "dark"}`}
@@ -199,6 +202,7 @@ function NoteCard({ id, title, tags, hasDarkTheme }: SimplifiedNote) {
                 : tag.label}
             </Badge>
           ))}
+        <p>{teaser}</p>
       </div>
     </Link>
   );

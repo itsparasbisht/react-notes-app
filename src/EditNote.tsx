@@ -23,6 +23,7 @@ function EditNote({
       </h1>
       <NoteForm
         title={note.title}
+        teaser={note.teaser}
         markdown={note.markdown}
         tags={note.tags}
         onSubmit={(data) => onSubmit(note.id, data)}

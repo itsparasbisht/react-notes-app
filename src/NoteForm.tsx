@@ -22,11 +22,13 @@ function NoteForm({
   onAddTag,
   availableTags,
   title = "",
+  teaser = "",
   markdown = "",
   tags = [],
   hasDarkTheme,
 }: NoteFormProps) {
   const titleRef = useRef<HTMLInputElement>(null);
+  const teaserRef = useRef<HTMLInputElement>(null);
   const [markdownInput, setMarkdownInput] = useState(markdown);
   const [selectedTags, setSelectedTags] = useState<Tag[]>(tags);
   const navigate = useNavigate();
@@ -35,6 +37,7 @@ function NoteForm({
     e.preventDefault();
     onSubmit({
       title: titleRef.current!.value,
+      teaser: teaserRef.current!.value,
       markdown: markdownInput,
       tags: selectedTags,
     });
@@ -48,7 +51,7 @@ function NoteForm({
   async function handleSaveInDB() {
     const { data, error } = await supabase
       .from("blogs")
-      .insert([{ title, body: markdownInput, tags: selectedTags }])
+      .insert([{ title, teaser, body: markdownInput, tags: selectedTags }])
       .select();
     if (data) {
       console.log(data);
@@ -113,6 +116,22 @@ function NoteForm({
             }}
           />
         </div>
+      </div>
+
+      <div className="flex-1 mt-1">
+        <label htmlFor="teaser" className="block mb-1 font-medium">
+          Teaser
+        </label>
+        <TextField.Input
+          id="teaser"
+          variant="soft"
+          size="3"
+          placeholder="enter teaser..."
+          ref={teaserRef}
+          defaultValue={teaser}
+          className="dark:!text-gray-300"
+          autoComplete="off"
+        />
       </div>
 
       <div className="mt-4 flex gap-3 flex-col md:flex-row">
