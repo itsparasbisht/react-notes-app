@@ -157,6 +157,10 @@ function NoteForm({
           variant="solid"
           color="yellow"
           onClick={handleSaveInDB}
+          style={{
+            display:
+              localStorage.getItem("save-in-db") === "true" ? "block" : "none",
+          }}
         >
           Save in DB
         </Button>
