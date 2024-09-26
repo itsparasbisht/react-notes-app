@@ -9,6 +9,7 @@ import { Link, useNavigate } from "react-router-dom";
 import remarkGfm from "remark-gfm";
 import rehypeRaw from "rehype-raw";
 import rehypeSanitize from "rehype-sanitize";
+import rehypeExternalLinks from "rehype-external-links";
 import { useNote } from "./NoteLayout";
 
 type NoteProps = {
@@ -66,7 +67,14 @@ export default function Note({ onDelete, hasDarkTheme }: NoteProps) {
       <ReactMarkdown
         className="markdown-container w-full dark:text-gray-300"
         remarkPlugins={[remarkGfm]}
-        rehypePlugins={[rehypeRaw, rehypeSanitize]}
+        rehypePlugins={[
+          rehypeRaw,
+          rehypeSanitize,
+          [
+            rehypeExternalLinks,
+            { target: "_blank", rel: "noopener noreferrer" },
+          ],
+        ]}
       >
         {note.markdown}
       </ReactMarkdown>
