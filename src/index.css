@@ -28,6 +28,10 @@ body {
     margin: 0px 30px;
 }
 
+dialog>* {
+    background-color: rgb(16, 16, 16) !important;
+}
+
 @media all and (max-width:600px) {
     body {
         margin: 0px 15px;

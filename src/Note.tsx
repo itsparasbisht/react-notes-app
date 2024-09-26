@@ -11,6 +11,8 @@ import rehypeRaw from "rehype-raw";
 import rehypeSanitize from "rehype-sanitize";
 import rehypeExternalLinks from "rehype-external-links";
 import { useNote } from "./NoteLayout";
+import Zoom from "react-medium-image-zoom";
+import "react-medium-image-zoom/dist/styles.css";
 
 type NoteProps = {
   onDelete: (id: string) => void;
@@ -75,6 +77,13 @@ export default function Note({ onDelete, hasDarkTheme }: NoteProps) {
             { target: "_blank", rel: "noopener noreferrer" },
           ],
         ]}
+        components={{
+          img: ({ node, ...props }) => (
+            <Zoom>
+              <img {...props} style={{ maxWidth: "100%" }} />
+            </Zoom>
+          ),
+        }}
       >
         {note.markdown}
       </ReactMarkdown>
