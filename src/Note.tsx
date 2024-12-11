@@ -8,7 +8,6 @@ import ReactMarkdown from "react-markdown";
 import { Link, useNavigate } from "react-router-dom";
 import remarkGfm from "remark-gfm";
 import rehypeRaw from "rehype-raw";
-import rehypeSanitize from "rehype-sanitize";
 import rehypeExternalLinks from "rehype-external-links";
 import { useNote } from "./NoteLayout";
 import Zoom from "react-medium-image-zoom";
@@ -71,7 +70,6 @@ export default function Note({ onDelete, hasDarkTheme }: NoteProps) {
         remarkPlugins={[remarkGfm]}
         rehypePlugins={[
           rehypeRaw,
-          rehypeSanitize,
           [
             rehypeExternalLinks,
             { target: "_blank", rel: "noopener noreferrer" },
@@ -83,6 +81,22 @@ export default function Note({ onDelete, hasDarkTheme }: NoteProps) {
               <img {...props} style={{ maxWidth: "100%" }} />
             </Zoom>
           ),
+          video: ({ node, ...props }) => {
+            const { width = "100%", height = "auto", ...rest } = props;
+            return (
+              <video
+                {...rest}
+                controls
+                style={{
+                  width,
+                  height,
+                  borderRadius: "8px",
+                }}
+              >
+                Your browser does not support the video tag.
+              </video>
+            );
+          },
         }}
       >
         {note.markdown}

@@ -7,9 +7,9 @@ import { v4 as uuidV4 } from "uuid";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeRaw from "rehype-raw";
-import rehypeSanitize from "rehype-sanitize";
 import rehypeExternalLinks from "rehype-external-links";
 import { supabase } from "./utils/supabase";
+import Zoom from "react-medium-image-zoom";
 
 type NoteFormProps = {
   onSubmit: (data: NoteData) => void;
@@ -169,12 +169,34 @@ function NoteForm({
             remarkPlugins={[remarkGfm]}
             rehypePlugins={[
               rehypeRaw,
-              rehypeSanitize,
               [
                 rehypeExternalLinks,
                 { target: "_blank", rel: "noopener noreferrer" },
               ],
             ]}
+            components={{
+              img: ({ node, ...props }) => (
+                <Zoom>
+                  <img {...props} style={{ maxWidth: "100%" }} />
+                </Zoom>
+              ),
+              video: ({ node, ...props }) => {
+                const { width = "100%", height = "auto", ...rest } = props;
+                return (
+                  <video
+                    {...rest}
+                    controls
+                    style={{
+                      width,
+                      height,
+                      borderRadius: "8px",
+                    }}
+                  >
+                    Your browser does not support the video tag.
+                  </video>
+                );
+              },
+            }}
             className="markdown-container h-[60vh] border-2 rounded-lg p-4 pt-0  overflow-auto"
           >
             {markdownInput}
