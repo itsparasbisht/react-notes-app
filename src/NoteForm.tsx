@@ -196,6 +196,28 @@ function NoteForm({
                   </video>
                 );
               },
+              iframe: ({ ...props }) => (
+                <div
+                  style={{
+                    position: "relative",
+                    width: props.width || "640px",
+                    height: props.height || "360px",
+                    maxWidth: "100%",
+                    margin: "0 auto",
+                  }}
+                >
+                  <iframe
+                    {...props}
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      border: "0",
+                    }}
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  />
+                </div>
+              ),
             }}
             className="markdown-container h-[60vh] border-2 rounded-lg p-4 pt-0  overflow-auto"
           >
